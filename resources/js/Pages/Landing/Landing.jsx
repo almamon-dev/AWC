@@ -10,10 +10,11 @@ import Testimonials from "./Partials/Testimonials";
 import FAQ from "./Partials/FAQ";
 import CTA from "./Partials/CTA";
 import Footer from "./Partials/Footer";
+import ScrollToTop from "@/Components/ScrollToTop";
 
 const Landing = () => {
     return (
-        <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-cyan-100 selection:text-cyan-900">
+        <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-cyan-100 selection:text-cyan-900 relative">
             <Head title="Auto Wholesale Canada - Get the Best Dealer Offers for Your Car" />
 
             <Header />
@@ -30,6 +31,7 @@ const Landing = () => {
             </main>
 
             <Footer />
+            <ScrollToTop />
 
             <style jsx global>{`
                 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");

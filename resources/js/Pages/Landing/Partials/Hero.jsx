@@ -27,7 +27,7 @@ const Hero = () => {
     })).filter((group) => group.items.length > 0);
 
     return (
-        <section className="relative min-h-[650px] flex items-center pt-16 overflow-hidden">
+        <section className="relative min-h-[790px] flex items-center pt-16 overflow-hidden">
             {/* Background Image with Overlay */}
             <div
                 className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"

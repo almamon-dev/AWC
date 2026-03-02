@@ -1,4 +1,5 @@
 import { Mail, Car } from "lucide-react";
+import { Link } from "@inertiajs/react";
 
 const Footer = () => {
     return (
@@ -7,8 +8,11 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-10">
                     {/* Brand Info */}
                     <div className="space-y-6">
-                        <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-[#00E5FF] rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.3)]">
+                        <Link
+                            href="/"
+                            className="flex items-center gap-2 group"
+                        >
+                            <div className="w-10 h-10 bg-[#00E5FF] rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-transform group-hover:scale-110">
                                 <Car
                                     size={24}
                                     className="text-black"
@@ -18,7 +22,7 @@ const Footer = () => {
                             <span className="text-[20px] font-bold tracking-tight text-[#00E5FF]">
                                 AutoWholesaleCanada
                             </span>
-                        </div>
+                        </Link>
                         <p className="text-[#94A3B8] text-[15px] leading-relaxed max-w-xs font-medium">
                             Canada's trusted platform for selling your car to
                             verified dealers.
@@ -31,15 +35,23 @@ const Footer = () => {
                             Page
                         </h4>
                         <ul className="space-y-3">
-                            {["About Us", "How It Works", "FAQ"].map((item) => (
-                                <li key={item}>
-                                    <a
-                                        href="#"
+                            {[
+                                { name: "About Us", href: "/about" },
+                                {
+                                    name: "How It Works",
+                                    href: "/#how-it-works",
+                                },
+                                { name: "FAQ", href: "/faq" },
+                                { name: "Contact Us", href: "/contact" },
+                            ].map((item) => (
+                                <li key={item.name}>
+                                    <Link
+                                        href={item.href}
                                         className="text-[#94A3B8] hover:text-[#00E5FF] text-[15px] font-medium transition-all duration-300 flex items-center gap-2 group"
                                     >
                                         <span className="w-1 h-1 bg-transparent group-hover:bg-[#00E5FF] rounded-full transition-all"></span>
-                                        {item}
-                                    </a>
+                                        {item.name}
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -20,7 +18,6 @@ class UserController extends Controller
             $query->where('name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%");
         })
-            ->with('roles')
             ->latest()
             ->paginate($perPage)
             ->withQueryString();
@@ -34,9 +31,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return Inertia::render('Admin/Users/Edit', [
-            'user' => $user->load(['roles', 'permissions']),
-            'roles' => Role::all(),
-            'permissions' => Permission::all()->groupBy('category'),
+            'user' => $user,
         ]);
     }
 
@@ -45,22 +40,12 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'roles' => 'nullable|array',
-            'permissions' => 'nullable|array',
         ]);
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
         ]);
-
-        if ($request->has('roles')) {
-            $user->syncRoles($request->roles);
-        }
-
-        if ($request->has('permissions')) {
-            $user->syncPermissions($request->permissions);
-        }
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }

@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 
-const CTA = () => {
+const CTA = ({ onGetOffersClick }) => {
     return (
         <section className="">
             <div className="w-full">
@@ -27,7 +27,10 @@ const CTA = () => {
                         </div>
 
                         <div className="flex justify-center">
-                            <button className="bg-[#00E5FF] hover:bg-[#00D1EB] text-black px-12 py-4 rounded-xl font-bold text-[17px] flex items-center gap-3 transition-all transform hover:-translate-y-1 active:scale-95 shadow-[0_15px_30px_-5px_rgba(0,229,255,0.4)]">
+                            <button
+                                onClick={onGetOffersClick}
+                                className="bg-[#00E5FF] hover:bg-[#00D1EB] text-black px-12 py-4 rounded-xl font-bold text-[17px] flex items-center gap-3 transition-all transform hover:-translate-y-1 active:scale-95 shadow-[0_15px_30px_-5px_rgba(0,229,255,0.4)]"
+                            >
                                 Get Started <ArrowRight size={20} />
                             </button>
                         </div>

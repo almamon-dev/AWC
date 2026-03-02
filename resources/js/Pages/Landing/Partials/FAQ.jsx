@@ -6,35 +6,37 @@ import { Plus, Minus, X, Compass } from "lucide-react";
  * Features a large steering wheel watermark in the background.
  * Uses a clean, interactive accordion for frequently asked questions.
  */
-const FAQ = () => {
+const FAQ = ({ faqs: dynamicFaqs = [] }) => {
     const [openIndex, setOpenIndex] = useState(0);
 
-    const faqs = [
+    const defaultFaqs = [
         {
-            q: "How does your service work?",
-            a: "We collect your car details and pitch them to certified dealers. They compete to give you the best offer, and you choose the one that works for you.",
+            question: "How does your service work?",
+            answer: "We collect your car details and pitch them to certified dealers. They compete to give you the best offer, and you choose the one that works for you.",
         },
         {
-            q: "How much does it cost?",
-            a: "Our service costs a flat fee of $29.99 for a listing. There are no commissions or hidden fees beyond that.",
+            question: "How much does it cost?",
+            answer: "Our service costs a flat fee of $29.99 for a listing. There are no commissions or hidden fees beyond that.",
         },
         {
-            q: "Do I have to accept an offer?",
-            a: "No, you are under no obligation to accept any offer. You are in full control of the process.",
+            question: "Do I have to accept an offer?",
+            answer: "No, you are under no obligation to accept any offer. You are in full control of the process.",
         },
         {
-            q: "How long does it take to get offers?",
-            a: "Most sellers start receiving offers within 24 hours of their listing being approved.",
+            question: "How long does it take to get offers?",
+            answer: "Most sellers start receiving offers within 24 hours of their listing being approved.",
         },
         {
-            q: "Who are the dealers making offers on my car?",
-            a: "We work with a network of verified, certified dealers across Canada who are looking for quality inventory.",
+            question: "Who are the dealers making offers on my car?",
+            answer: "We work with a network of verified, certified dealers across Canada who are looking for quality inventory.",
         },
         {
-            q: "Will you take a cut from my final sale?",
-            a: "Absolutely not. The price you agree with the dealer is 100% yours. We only charge the initial listing fee.",
+            question: "Will you take a cut from my final sale?",
+            answer: "Absolutely not. The price you agree with the dealer is 100% yours. We only charge the initial listing fee.",
         },
     ];
+
+    const displayFaqs = dynamicFaqs.length > 0 ? dynamicFaqs : defaultFaqs;
 
     return (
         <section className="py-16 bg-white relative overflow-hidden" id="faq">
@@ -59,10 +61,10 @@ const FAQ = () => {
                 </div>
 
                 {/* Accordion List */}
-                <div className="space-y-2 animate-in fade-in slide-in-from-bottom duration-700">
-                    {faqs.map((faq, index) => (
+                <div className="space-y-4 animate-in fade-in slide-in-from-bottom duration-700">
+                    {displayFaqs.map((faq, index) => (
                         <div
-                            key={index}
+                            key={faq.id || index}
                             className={`border rounded-xl transition-all duration-300 ${
                                 openIndex === index
                                     ? "border-[#E2E8F0] shadow-sm bg-gray-50/20"
@@ -70,7 +72,7 @@ const FAQ = () => {
                             }`}
                         >
                             <button
-                                className="w-full px-6 py-5 text-left flex justify-between items-center group transition-colors"
+                                className="w-full px-6 py-5 text-left flex justify-between items-center group transition-colors focus:outline-none"
                                 onClick={() =>
                                     setOpenIndex(
                                         openIndex === index ? null : index,
@@ -80,7 +82,7 @@ const FAQ = () => {
                                 <span
                                     className={`text-[17px] font-bold tracking-tight ${openIndex === index ? "text-[#1E293B]" : "text-[#475569]"}`}
                                 >
-                                    Q. {faq.q}
+                                    Q. {faq.question}
                                 </span>
                                 <div className="flex-shrink-0 ml-4 transition-transform duration-300">
                                     {openIndex === index ? (
@@ -100,8 +102,8 @@ const FAQ = () => {
                             {openIndex === index && (
                                 <div className="px-6 pb-6 animate-in fade-in slide-in-from-top duration-500">
                                     <div className="h-px bg-[#F1F5F9] mb-4"></div>
-                                    <p className="text-[#64748B] text-[15px] leading-[1.6] font-medium max-w-2xl">
-                                        {faq.a}
+                                    <p className="text-[#64748B] text-[15px] leading-[1.6] font-medium max-w-2xl whitespace-pre-line">
+                                        {faq.answer}
                                     </p>
                                 </div>
                             )}

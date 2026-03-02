@@ -6,7 +6,14 @@ import { ShoppingBag } from "lucide-react";
  * Implements a premium, layered aesthetic with custom image masks and overlapping elements.
  * Features a portal-arched frame, a foreground car element, and a subtle background icon.
  */
-const AboutUs = () => {
+const AboutUs = ({ content }) => {
+    const title = content?.title || "About US";
+    const subtitle = content?.subtitle || "Your car's solution—made simple";
+    const description =
+        content?.description ||
+        "Selling your car can be stressful and time-consuming. By listing your car on Auto Wholesale, you gain access to a professional brokerage team dedicated to working for you and your vehicle. Join our satisfied customers and secure top-dollar, highly qualified, and competitive offers.";
+    const imageUrl = content?.image_url || "/images/landing/about_us.png";
+
     return (
         <section className="py-16 bg-white overflow-hidden" id="about-us">
             <div className="container mx-auto px-4">
@@ -15,8 +22,8 @@ const AboutUs = () => {
                     <div className="lg:w-1/2 relative flex justify-center lg:justify-start animate-in fade-in slide-in-from-left duration-700">
                         <div className="relative w-full max-w-[480px] group">
                             <img
-                                src="/images/landing/about_us.png"
-                                alt="Modern Car Solution"
+                                src={imageUrl}
+                                alt={title}
                                 className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]"
                             />
                         </div>
@@ -26,24 +33,16 @@ const AboutUs = () => {
                     <div className="lg:w-1/2 space-y-6 animate-in fade-in slide-in-from-right duration-700">
                         <div className="space-y-3">
                             <span className="text-[#06B6D4] font-bold text-[15px] tracking-wide uppercase">
-                                About US
+                                {title}
                             </span>
                             <h2 className="text-[36px] lg:text-[42px] font-bold text-[#1E293B] leading-[1.2] tracking-tight">
-                                Your car's solution—made
-                                <br />
-                                simple
+                                {subtitle}
                             </h2>
                         </div>
 
-                        <p className="text-[#64748B] text-[16px] leading-[1.6] font-medium max-w-xl">
-                            Selling your car can be stressful and
-                            time-consuming. By listing your car on Auto
-                            Wholesale, you gain access to a professional
-                            brokerage team dedicated to working for you and your
-                            vehicle. Join our satisfied customers and secure
-                            top-dollar, highly qualified, and competitive
-                            offers.
-                        </p>
+                        <div className="text-[#64748B] text-[16px] leading-[1.6] font-medium max-w-xl whitespace-pre-line">
+                            {description}
+                        </div>
 
                         <div className="pt-4">
                             <button className="bg-[#00E5FF] hover:bg-[#00D1EB] text-black px-10 py-3.5 rounded-lg font-bold text-[15px] shadow-[0_8px_20px_-5px_rgba(0,229,255,0.4)] transition-all transform hover:-translate-y-1 active:scale-95">

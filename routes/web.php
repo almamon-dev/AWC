@@ -11,8 +11,26 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'faqs' => \App\Models\Faq::where('is_active', true)->orderBy('order')->get(),
+        'about' => \App\Models\AboutContent::first(),
     ]);
 });
+
+Route::get('/sell-car', function () {
+    return Inertia::render('Landing/SellCar');
+})->name('sell.car');
+
+Route::get('/about', function () {
+    return Inertia::render('Landing/About');
+})->name('about');
+
+Route::get('/faq', function () {
+    return Inertia::render('Landing/FAQ');
+})->name('faq');
+
+Route::get('/contact', function () {
+    return Inertia::render('Landing/Contact');
+})->name('contact');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -25,10 +43,13 @@ Route::middleware('auth')->group(function () {
 
     // Admin Routes
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::middleware(['can:roles.view'])->resource('roles', \App\Http\Controllers\Admin\RoleController::class);
-        Route::middleware(['can:users.view'])->resource('users', \App\Http\Controllers\Admin\UserController::class);
-        Route::middleware(['can:permissions.view'])->resource('permissions', \App\Http\Controllers\Admin\PermissionController::class);
-        Route::middleware(['can:categories.view'])->group(function () {
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+        Route::resource('faqs', \App\Http\Controllers\Admin\FaqController::class);
+        
+        Route::get('about-content', [\App\Http\Controllers\Admin\AboutContentController::class, 'index'])->name('about-content.index');
+        Route::post('about-content', [\App\Http\Controllers\Admin\AboutContentController::class, 'update'])->name('about-content.update');
+
+        Route::group([], function () {
             Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
             Route::get('sub-categories', [\App\Http\Controllers\Admin\CategoryController::class, 'subCategories'])->name('sub-categories.index');
         });

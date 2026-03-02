@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -12,25 +14,23 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Add Admin User
-        $admin = \App\Models\User::firstOrCreate(
+        User::firstOrCreate(
             ['email' => 'admin@gmail.com'],
             [
                 'name' => 'Admin User',
-                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'password' => Hash::make('password'),
             ]
         );
-        $admin->assignRole('Admin');
 
         // Add 5 Specific Test Users (user1@gmail.com to user5@gmail.com)
         foreach (range(1, 5) as $i) {
-            $user = \App\Models\User::firstOrCreate(
+            User::firstOrCreate(
                 ['email' => "user{$i}@gmail.com"],
                 [
                     'name' => "User {$i}",
-                    'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                    'password' => Hash::make('password'),
                 ]
             );
-            $user->assignRole('User');
         }
     }
 }

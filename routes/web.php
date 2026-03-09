@@ -20,6 +20,8 @@ Route::get('/sell-car', function () {
     return Inertia::render('Landing/SellCar');
 })->name('sell.car');
 
+Route::post('/sell-car', [\App\Http\Controllers\SellCarController::class, 'store'])->name('sell.car.store');
+
 Route::get('/about', function () {
     return Inertia::render('Landing/About');
 })->name('about');

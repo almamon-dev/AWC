@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Upload, Plus, X, ImagePlus, ArrowUp, Camera } from "lucide-react";
+import { Upload, Plus, X, ImagePlus, ArrowUp, Camera, CheckCircle2 } from "lucide-react";
 
 const PhotoSlot = ({
     label,
@@ -42,7 +42,7 @@ const PhotoSlot = ({
     return (
         <div
             onClick={handleClick}
-            className="flex flex-col items-center p-3 bg-white border-2 border-dashed border-gray-100 rounded-xl hover:border-cyan-400 hover:bg-slate-50 transition-all cursor-pointer group aspect-square relative shadow-sm hover:shadow-md overflow-hidden"
+            className="flex flex-col items-center p-2 bg-white border-2 border-dashed border-gray-100 rounded-xl hover:border-cyan-400 hover:bg-slate-50 transition-all cursor-pointer group aspect-square relative shadow-sm hover:shadow-md overflow-hidden"
         >
             <input
                 type="file"
@@ -52,30 +52,37 @@ const PhotoSlot = ({
                 accept="image/*"
             />
 
+            {/* Success Indicator */}
+            {preview && (
+                <div className="absolute top-1.5 right-1.5 bg-green-500 text-white rounded-full p-0.5 shadow-sm z-20 animate-in zoom-in duration-300">
+                    <CheckCircle2 size={10} strokeWidth={3} />
+                </div>
+            )}
+
             {/* Label at the top */}
-            <span className="text-[11px] font-bold text-gray-500 mb-1 text-center group-hover:text-cyan-600 transition-colors tracking-tight z-10">
+            <span className="text-[10px] font-bold text-gray-400 mb-1 text-center group-hover:text-cyan-600 transition-colors tracking-tight z-10 w-full truncate px-1">
                 {label}
             </span>
 
             {/* Main Visual Area */}
-            <div className="flex-1 w-full flex items-center justify-center mb-1 overflow-hidden relative">
+            <div className="flex-1 w-full flex items-center justify-center relative overflow-hidden bg-gray-50/30 rounded-lg">
                 {preview ? (
-                    <div className="absolute inset-0 w-full h-full p-1 animate-in fade-in duration-300">
+                    <div className="w-full h-full p-1 animate-in fade-in duration-300">
                         <img
                             src={preview}
                             alt="preview"
-                            className="w-full h-full object-cover rounded-lg"
+                            className="w-full h-full object-contain" // Changed from object-cover to avoid cutting
                         />
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
-                            <Camera size={24} className="text-white" />
+                        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Camera size={20} className="text-white drop-shadow-md" />
                         </div>
                     </div>
                 ) : isDamage ? (
                     <div className="text-gray-300 group-hover:text-cyan-400 transition-all duration-300 transform group-hover:scale-110">
-                        <ImagePlus size={44} strokeWidth={1} />
+                        <ImagePlus size={36} strokeWidth={1} />
                     </div>
                 ) : imageSrc ? (
-                    <div className="w-full h-full flex items-center justify-center p-1 grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 transition-all duration-500">
+                    <div className="w-full h-full flex items-center justify-center p-2 grayscale group-hover:grayscale-0 opacity-20 group-hover:opacity-80 transition-all duration-500">
                         <img
                             src={imageSrc}
                             alt={label}
@@ -84,20 +91,15 @@ const PhotoSlot = ({
                     </div>
                 ) : (
                     <div className="text-gray-200 group-hover:text-cyan-200 transition-colors">
-                        <Camera size={36} strokeWidth={1} />
+                        <Camera size={30} strokeWidth={1} />
                     </div>
                 )}
             </div>
 
             {/* Upload Action at the bottom */}
-            <div className="flex flex-col items-center gap-0.5 mt-auto z-10">
-                <ArrowUp
-                    size={14}
-                    className="text-gray-300 group-hover:text-cyan-500 transition-colors"
-                    strokeWidth={2}
-                />
-                <span className="text-[10px] font-black text-gray-400 group-hover:text-gray-600 transition-colors leading-tight uppercase tracking-wide">
-                    {preview ? "Change Photo" : "Upload Photo"}
+            <div className="flex flex-col items-center mt-1 z-10">
+                <span className="text-[9px] font-black text-gray-400 group-hover:text-cyan-600 transition-colors leading-tight uppercase tracking-widest flex items-center gap-1">
+                    {preview ? "Change" : "Upload"} <Plus size={8} />
                 </span>
             </div>
         </div>

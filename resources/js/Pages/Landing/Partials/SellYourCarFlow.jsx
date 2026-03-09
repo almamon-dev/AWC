@@ -22,40 +22,14 @@ import StepVehicleCondition from "./Steps/StepVehicleCondition";
 import StepReviewListing from "./Steps/StepReviewListing";
 import StepPayment from "./Steps/StepPayment";
 
-const SellYourCarFlow = ({ initialData, onComplete, onClose }) => {
+const SellYourCarFlow = ({ form, onComplete, onClose }) => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [formData, setFormData] = useState({
-        ...initialData,
-        location: {
-            province: "",
-            city: "",
-            postalCode: "",
-            address: "",
-        },
-        contact: {
-            fullName: "",
-            email: "",
-            phone: "",
-        },
-        photos: {
-            exterior: {},
-            interior: {},
-            damage: [],
-        },
-        condition: {
-            hasAccident: false,
-            accidentDetails: "",
-            hasMechanicalIssues: false,
-            mechanicalDetails: "",
-            symptoms: {},
-        },
-    });
-
+    
     const handleNext = () => {
         if (currentStep < 5) {
             setCurrentStep(currentStep + 1);
         } else {
-            onComplete(formData);
+            onComplete(form.data);
         }
     };
 
@@ -66,7 +40,7 @@ const SellYourCarFlow = ({ initialData, onComplete, onClose }) => {
     };
 
     const updateFormData = (section, data) => {
-        setFormData((prev) => ({
+        form.setData((prev) => ({
             ...prev,
             [section]: {
                 ...prev[section],
@@ -173,7 +147,7 @@ const SellYourCarFlow = ({ initialData, onComplete, onClose }) => {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white select-none">
+        <div className="flex flex-col h-full bg-white">
             {/* Header Area */}
             {currentStep < 5 && (
                 <div className="flex items-center justify-between mb-3 pb-2">
@@ -196,25 +170,26 @@ const SellYourCarFlow = ({ initialData, onComplete, onClose }) => {
                 <div className="rounded-2xl p-4 bg-white mb-4">
                     {currentStep === 1 && (
                         <StepLocationContact
-                            data={formData}
+                            data={form.data}
+                            errors={form.errors}
                             updateData={updateFormData}
                         />
                     )}
                     {currentStep === 2 && (
                         <StepPhotosUpload
-                            data={formData}
+                            data={form.data}
                             updateData={updateFormData}
                         />
                     )}
                     {currentStep === 3 && (
                         <StepVehicleCondition
-                            data={formData}
+                            data={form.data}
                             updateData={updateFormData}
                         />
                     )}
-                    {currentStep === 4 && <StepReviewListing data={formData} />}
+                    {currentStep === 4 && <StepReviewListing data={form.data} />}
                     {currentStep === 5 && (
-                        <StepPayment data={formData} onComplete={handleNext} />
+                        <StepPayment data={form.data} onComplete={handleNext} />
                     )}
                 </div>
 

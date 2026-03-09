@@ -16,6 +16,20 @@ const OfferForm = ({ onVinHelpClick, onFormSubmit }) => {
     const [selectedMake, setSelectedMake] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
+    const [formData, setFormData] = useState({
+        vin: "",
+        kilometres: "",
+        transmission: "Automatic",
+        year: "",
+        make: "",
+        model: "",
+        trim: "",
+    });
+
+    const handleChange = (field, value) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
+    };
+
     const filteredMakes = CAR_MAKES.map((group) => ({
         ...group,
         items: group.items.filter((item) =>
@@ -25,17 +39,34 @@ const OfferForm = ({ onVinHelpClick, onFormSubmit }) => {
 
     const handleGetOffer = () => {
         setIsLoading(true);
-        // Simulate an API call
+        // Simulate an API call or just pass data
         setTimeout(() => {
             setIsLoading(false);
             if (onFormSubmit) {
-                onFormSubmit({
+                const submissionData = {
                     tab: activeTab,
-                    make: selectedMake,
-                    // other fields would go here
-                });
+                    transmission: formData.transmission,
+                    kilometres: formData.kilometres,
+                };
+
+                if (activeTab === "vin") {
+                    submissionData.vin = formData.vin;
+                    // Reset basics
+                    submissionData.year = "";
+                    submissionData.make = "";
+                    submissionData.model = "";
+                    submissionData.trim = "";
+                } else {
+                    submissionData.vin = "";
+                    submissionData.year = formData.year;
+                    submissionData.make = selectedMake;
+                    submissionData.model = formData.model;
+                    submissionData.trim = formData.trim;
+                }
+
+                onFormSubmit(submissionData);
             }
-        }, 1500);
+        }, 800);
     };
 
     return (
@@ -78,6 +109,10 @@ const OfferForm = ({ onVinHelpClick, onFormSubmit }) => {
                                 </div>
                                 <input
                                     type="text"
+                                    value={formData.vin}
+                                    onChange={(e) =>
+                                        handleChange("vin", e.target.value)
+                                    }
                                     placeholder="e.g., 1P3ES22C6WD383852"
                                     className="w-full pl-10 pr-4 py-3.5 bg-[#F8FAFC] border border-gray-200 rounded-lg focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all text-[#1E293B] outline-none placeholder:text-gray-400 font-medium text-sm"
                                 />
@@ -100,6 +135,13 @@ const OfferForm = ({ onVinHelpClick, onFormSubmit }) => {
                                 </div>
                                 <input
                                     type="text"
+                                    value={formData.kilometres}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "kilometres",
+                                            e.target.value,
+                                        )
+                                    }
                                     placeholder="e.g., 85000"
                                     className="w-full pl-10 pr-4 py-3.5 bg-[#F8FAFC] border border-gray-200 rounded-lg focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all text-[#1E293B] outline-none placeholder:text-gray-400 font-medium text-sm"
                                 />
@@ -114,10 +156,18 @@ const OfferForm = ({ onVinHelpClick, onFormSubmit }) => {
                                 <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]">
                                     <Workflow size={18} className="rotate-90" />
                                 </div>
-                                <select className="w-full pl-10 pr-4 py-3.5 bg-[#F8FAFC] border border-gray-200 rounded-lg focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all text-[#1E293B] outline-none appearance-none font-medium text-sm cursor-pointer">
-                                    <option>Select Transmission</option>
-                                    <option>Automatic</option>
-                                    <option>Manual</option>
+                                <select
+                                    value={formData.transmission}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            "transmission",
+                                            e.target.value,
+                                        )
+                                    }
+                                    className="w-full pl-10 pr-4 py-3.5 bg-[#F8FAFC] border border-gray-200 rounded-lg focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all text-[#1E293B] outline-none appearance-none font-medium text-sm cursor-pointer"
+                                >
+                                    <option value="Automatic">Automatic</option>
+                                    <option value="Manual">Manual</option>
                                 </select>
                             </div>
                         </div>
@@ -142,18 +192,50 @@ const OfferForm = ({ onVinHelpClick, onFormSubmit }) => {
                                     label === "Kilometres" ? (
                                         <input
                                             type="text"
+                                            value={
+                                                formData[label.toLowerCase()]
+                                            }
+                                            onChange={(e) =>
+                                                handleChange(
+                                                    label.toLowerCase(),
+                                                    e.target.value,
+                                                )
+                                            }
                                             placeholder={`e.g., ${label === "Model" ? "Accord" : label === "Trim" ? "EX" : "85000"}`}
                                             className="w-full px-4 py-2.5 bg-[#F8FAFC] border border-gray-200 rounded-lg text-sm outline-none placeholder:text-gray-400 font-medium focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white text-[#1E293B] transition-all"
                                         />
                                     ) : label === "Transmission" ? (
-                                        <select className="w-full px-4 py-2.5 bg-[#F8FAFC] border border-gray-200 rounded-lg text-sm outline-none appearance-none text-[#64748B] font-semibold cursor-pointer focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all">
-                                            <option>Select Transmission</option>
-                                            <option>Automatic</option>
-                                            <option>Manual</option>
+                                        <select
+                                            value={formData.transmission}
+                                            onChange={(e) =>
+                                                handleChange(
+                                                    "transmission",
+                                                    e.target.value,
+                                                )
+                                            }
+                                            className="w-full px-4 py-2.5 bg-[#F8FAFC] border border-gray-200 rounded-lg text-sm outline-none appearance-none text-[#64748B] font-semibold cursor-pointer focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all"
+                                        >
+                                            <option value="Automatic">
+                                                Automatic
+                                            </option>
+                                            <option value="Manual">
+                                                Manual
+                                            </option>
                                         </select>
                                     ) : label === "Year" ? (
-                                        <select className="w-full px-4 py-2.5 bg-[#F8FAFC] border border-gray-200 rounded-lg text-sm outline-none appearance-none text-[#64748B] font-semibold cursor-pointer focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all">
-                                            <option>Select Year</option>
+                                        <select
+                                            value={formData.year}
+                                            onChange={(e) =>
+                                                handleChange(
+                                                    "year",
+                                                    e.target.value,
+                                                )
+                                            }
+                                            className="w-full px-4 py-2.5 bg-[#F8FAFC] border border-gray-200 rounded-lg text-sm outline-none appearance-none text-[#64748B] font-semibold cursor-pointer focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 focus:bg-white transition-all"
+                                        >
+                                            <option value="">
+                                                Select Year
+                                            </option>
                                             {Array.from(
                                                 {
                                                     length:

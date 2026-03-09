@@ -22,72 +22,74 @@ const ToggleButton = ({
 const SymptomGroup = ({ title, items, values, onToggle }) => {
     return (
         <div className="space-y-4 pt-6 border-t border-gray-100 first:border-0 first:pt-0">
-            <h4 className="text-[15px] font-bold text-cyan-600 underline underline-offset-4 decoration-2 decoration-cyan-100">
-                {title}
-            </h4>
+            <div className="flex items-center justify-between">
+                <h4 className="text-[15px] font-bold text-cyan-600 underline underline-offset-4 decoration-2 decoration-cyan-100">
+                    {title}
+                </h4>
+            </div>
             <div className="space-y-4">
                 {items.map((item, idx) => (
                     <div
                         key={idx}
-                        className="flex items-center justify-between group"
+                        className="flex items-center justify-between group py-1"
                     >
-                        <span className="text-sm font-medium text-gray-700">
+                        <span className="text-sm font-medium text-gray-700 max-w-[70%]">
                             {idx + 1}. {item}
                         </span>
-                        <div className="flex items-center gap-4">
-                            <label className="flex items-center gap-2 cursor-pointer">
+                        <div className="flex items-center gap-6">
+                            <label className="flex items-center gap-2 cursor-pointer group/label">
                                 <input
                                     type="radio"
                                     name={`${title}-${idx}`}
                                     checked={values[item] === false}
                                     onChange={() => onToggle(item, false)}
-                                    className="hidden"
+                                    className="sr-only" // Changed from hidden to sr-only for autofill support
                                 />
                                 <div
-                                    className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
+                                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
                                         values[item] === false
                                             ? "border-red-500 bg-red-50"
-                                            : "border-gray-200"
+                                            : "border-gray-200 group-hover/label:border-red-200"
                                     }`}
                                 >
                                     {values[item] === false && (
                                         <X
-                                            size={10}
-                                            className="text-red-500 stroke-[3]"
+                                            size={12}
+                                            className="text-red-500 stroke-[3] animate-in zoom-in duration-200"
                                         />
                                     )}
                                 </div>
                                 <span
-                                    className={`text-xs font-bold ${values[item] === false ? "text-red-500" : "text-gray-400"}`}
+                                    className={`text-xs font-bold tracking-tight ${values[item] === false ? "text-red-500" : "text-gray-400"}`}
                                 >
                                     No
                                 </span>
                             </label>
 
-                            <label className="flex items-center gap-2 cursor-pointer">
+                            <label className="flex items-center gap-2 cursor-pointer group/label">
                                 <input
                                     type="radio"
                                     name={`${title}-${idx}`}
                                     checked={values[item] === true}
                                     onChange={() => onToggle(item, true)}
-                                    className="hidden"
+                                    className="sr-only" // Changed from hidden to sr-only for autofill support
                                 />
                                 <div
-                                    className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
+                                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
                                         values[item] === true
                                             ? "border-teal-500 bg-teal-50"
-                                            : "border-gray-200"
+                                            : "border-gray-200 group-hover/label:border-teal-200"
                                     }`}
                                 >
                                     {values[item] === true && (
                                         <Check
-                                            size={10}
-                                            className="text-teal-500 stroke-[3]"
+                                            size={12}
+                                            className="text-teal-500 stroke-[3] animate-in zoom-in duration-200"
                                         />
                                     )}
                                 </div>
                                 <span
-                                    className={`text-xs font-bold ${values[item] === true ? "text-teal-500" : "text-gray-400"}`}
+                                    className={`text-xs font-bold tracking-tight ${values[item] === true ? "text-teal-500" : "text-gray-400"}`}
                                 >
                                     Yes
                                 </span>
@@ -268,6 +270,7 @@ const StepVehicleCondition = ({ data, updateData }) => {
                                     onClick={() =>
                                         updateData("condition", {
                                             hasMechanicalIssues: false,
+                                            mechanicalDetails: "", // Reset mechanicalDetails when "Runs Perfectly" is selected
                                         })
                                     }
                                 />
@@ -295,11 +298,19 @@ const StepVehicleCondition = ({ data, updateData }) => {
                                     <h4 className="text-[13px] font-black text-[#475569] uppercase tracking-wider mb-1">
                                         List of Symptoms
                                     </h4>
-                                    <p className="text-[11px] font-bold text-gray-400 leading-tight">
+                                    <p className="text-[11px] font-bold text-gray-400 leading-tight mb-4">
                                         To give them accurate quote, audit will
                                         help us give you the most accurate price
                                         for your car.
                                     </p>
+                                    
+                                    {/* Column Headers for No/Yes */}
+                                    <div className="flex justify-end pr-[4px] mb-2 border-b border-gray-50 pb-1">
+                                        <div className="flex items-center gap-[46px] text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                                            <span>No</span>
+                                            <span>Yes</span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-8">
@@ -322,6 +333,12 @@ const StepVehicleCondition = ({ data, updateData }) => {
                                         type="text"
                                         className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-sm font-medium"
                                         placeholder="Describe any other issues..."
+                                        value={data.condition.mechanicalDetails || ""}
+                                        onChange={(e) =>
+                                            updateData("condition", {
+                                                mechanicalDetails: e.target.value,
+                                            })
+                                        }
                                     />
                                 </div>
                             </div>

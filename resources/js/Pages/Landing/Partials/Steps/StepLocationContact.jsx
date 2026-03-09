@@ -1,6 +1,6 @@
 import React from "react";
 
-const StepLocationContact = ({ data, updateData }) => {
+const StepLocationContact = ({ data, updateData, errors }) => {
     const provinces = [
         "Alberta",
         "British Columbia",
@@ -52,7 +52,7 @@ const StepLocationContact = ({ data, updateData }) => {
                                         name="province"
                                         value={data.location.province}
                                         onChange={handleLocationChange}
-                                        className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M4%206L8%2010L12%206%22%20stroke%3D%22%2364748B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:16px_16px] bg-[right_16px_center] bg-no-repeat"
+                                        className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['location.province'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M4%206L8%2010L12%206%22%20stroke%3D%22%2364748B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:16px_16px] bg-[right_16px_center] bg-no-repeat`}
                                     >
                                         <option value="">
                                             Select Province
@@ -63,6 +63,7 @@ const StepLocationContact = ({ data, updateData }) => {
                                             </option>
                                         ))}
                                     </select>
+                                    {errors?.['location.province'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['location.province']}</p>}
                                 </div>
 
                                 <div className="space-y-1.5">
@@ -75,8 +76,9 @@ const StepLocationContact = ({ data, updateData }) => {
                                         value={data.location.city}
                                         onChange={handleLocationChange}
                                         placeholder="Toronto, etc."
-                                        className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300"
+                                        className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['location.city'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300`}
                                     />
+                                    {errors?.['location.city'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['location.city']}</p>}
                                 </div>
 
                                 <div className="space-y-1.5">
@@ -89,8 +91,9 @@ const StepLocationContact = ({ data, updateData }) => {
                                         value={data.location.postalCode}
                                         onChange={handleLocationChange}
                                         placeholder="M5H 2N2"
-                                        className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300"
+                                        className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['location.postalCode'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300`}
                                     />
+                                    {errors?.['location.postalCode'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['location.postalCode']}</p>}
                                 </div>
 
                                 <div className="space-y-1.5">
@@ -103,8 +106,9 @@ const StepLocationContact = ({ data, updateData }) => {
                                         value={data.location.address}
                                         onChange={handleLocationChange}
                                         placeholder="Street Name, Apt..."
-                                        className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300"
+                                        className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['location.address'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300`}
                                     />
+                                    {errors?.['location.address'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['location.address']}</p>}
                                 </div>
                             </div>
                         </div>
@@ -127,8 +131,9 @@ const StepLocationContact = ({ data, updateData }) => {
                                         value={data.contact.fullName}
                                         onChange={handleContactChange}
                                         placeholder="John Smith"
-                                        className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300"
+                                        className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['contact.fullName'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300`}
                                     />
+                                    {errors?.['contact.fullName'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['contact.fullName']}</p>}
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
@@ -142,8 +147,9 @@ const StepLocationContact = ({ data, updateData }) => {
                                             value={data.contact.email}
                                             onChange={handleContactChange}
                                             placeholder="john@example.com"
-                                            className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300"
+                                            className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['contact.email'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300`}
                                         />
+                                        {errors?.['contact.email'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['contact.email']}</p>}
                                     </div>
 
                                     <div className="space-y-1.5">
@@ -156,8 +162,9 @@ const StepLocationContact = ({ data, updateData }) => {
                                             value={data.contact.phone}
                                             onChange={handleContactChange}
                                             placeholder="(416) 555-0123"
-                                            className="w-full h-[48px] px-4 bg-slate-50 border border-slate-200 rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300"
+                                            className={`w-full h-[48px] px-4 bg-slate-50 border ${errors?.['contact.phone'] ? 'border-red-500' : 'border-slate-200'} rounded-sm outline-none focus:bg-white focus:border-[#00E5FF] transition-all text-[14px] font-medium text-slate-700 placeholder:text-slate-300`}
                                         />
+                                        {errors?.['contact.phone'] && <p className="text-red-500 text-[10px] font-bold mt-1 ml-1">{errors['contact.phone']}</p>}
                                     </div>
                                 </div>
                             </div>

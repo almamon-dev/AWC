@@ -24,18 +24,18 @@ const StepReviewListing = ({ data }) => {
                                     Vehicle Details:
                                 </h4>
                                 <p className="text-sm font-bold text-gray-700">
-                                    Honda Accord, Civil, EX-L
+                                    {data.make} {data.model} {data.trim} {data.year}
                                 </p>
                                 <p className="text-[11px] text-gray-500 font-medium">
-                                    Transmission: Automatic
+                                    Transmission: {data.transmission}
                                 </p>
                             </div>
                             <div className="text-right">
                                 <p className="text-sm font-bold text-gray-700">
-                                    Mileage: 85000 KM
+                                    Mileage: {data.kilometres} KM
                                 </p>
                                 <p className="text-[11px] text-gray-500 font-medium">
-                                    Condition: Perfect
+                                    Condition: {data.condition.hasMechanicalIssues ? "Has Issues" : "Runs Perfectly"}
                                 </p>
                             </div>
                         </div>
@@ -50,8 +50,7 @@ const StepReviewListing = ({ data }) => {
                         </div>
                         <div className="p-6">
                             <p className="text-sm font-medium text-gray-700">
-                                {data.location.address ||
-                                    "Toronto, ON M5H 2N2 Canada"}
+                                {data.location.address}, {data.location.city}, {data.location.province} {data.location.postalCode}
                             </p>
                         </div>
                     </div>

@@ -45,6 +45,10 @@ class HandleInertiaRequests extends Middleware
                 ->with('children')
                 ->where('is_active', true)
                 ->get(),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
         ];
     }
 }
